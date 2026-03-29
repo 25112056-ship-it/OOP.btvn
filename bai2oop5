@@ -1,0 +1,153 @@
+Lớp cha: NhanVien
+
+Thuộc tính:
+
+maNV
+hoTen
+namSinh
+gioiTinh
+diaChi
+heSoLuong
+luongToiDa
+
+Phương thức:
+
+nhap()
+xuat()
+tinhLuong()
+🔹 Lớp con:
+👉 CongTacVien
+thoiHanHopDong
+phuCap
+👉 NhanVienChinhThuc
+viTriCongViec
+👉 TruongPhong
+ngayBatDau
+phuCapQuanLy
+NhanVien
+-------------------------
+- maNV
+- hoTen
+- namSinh
+- gioiTinh
+- diaChi
+- heSoLuong
+- luongToiDa
+-------------------------
++ nhap()
++ xuat()
++ tinhLuong()
+
+        ↑
+---------------------------------
+|        |            |
+CongTacVien   NhanVienChinhThuc   TruongPhong
+---------------------------------------------
+- thoiHanHD    - viTriCV        - ngayBatDau
+- phuCap                         - phuCapQL
+---------------------------------------------
++ nhap()        + nhap()        + nhap()
++ xuat()        + xuat()        + xuat()
+# ===== Lớp cha =====
+class NhanVien:
+    def __init__(self):
+        self.maNV = ""
+        self.hoTen = ""
+        self.namSinh = 0
+        self.gioiTinh = ""
+        self.diaChi = ""
+        self.heSoLuong = 0
+        self.luongToiDa = 0
+
+    def nhap(self):
+        self.maNV = input("Ma NV: ")
+        self.hoTen = input("Ho ten: ")
+        self.namSinh = int(input("Nam sinh: "))
+        self.gioiTinh = input("Gioi tinh: ")
+        self.diaChi = input("Dia chi: ")
+        self.heSoLuong = float(input("He so luong: "))
+        self.luongToiDa = float(input("Luong toi da: "))
+
+    def xuat(self):
+        print("Ma NV:", self.maNV)
+        print("Ho ten:", self.hoTen)
+        print("Nam sinh:", self.namSinh)
+        print("Gioi tinh:", self.gioiTinh)
+        print("Dia chi:", self.diaChi)
+        print("He so luong:", self.heSoLuong)
+        print("Luong toi da:", self.luongToiDa)
+
+    def tinh_luong(self):
+        return self.heSoLuong * self.luongToiDa
+
+
+# ===== Cộng tác viên =====
+class CongTacVien(NhanVien):
+    def __init__(self):
+        super().__init__()
+        self.thoiHanHD = ""
+        self.phuCap = 0
+
+    def nhap(self):
+        super().nhap()
+        self.thoiHanHD = input("Thoi han HD: ")
+        self.phuCap = float(input("Phu cap: "))
+
+    def xuat(self):
+        super().xuat()
+        print("Thoi han HD:", self.thoiHanHD)
+        print("Phu cap:", self.phuCap)
+        print("Luong:", self.tinh_luong() + self.phuCap)
+
+
+# ===== Nhân viên chính thức =====
+class NhanVienChinhThuc(NhanVien):
+    def __init__(self):
+        super().__init__()
+        self.viTri = ""
+
+    def nhap(self):
+        super().nhap()
+        self.viTri = input("Vi tri cong viec: ")
+
+    def xuat(self):
+        super().xuat()
+        print("Vi tri:", self.viTri)
+        print("Luong:", self.tinh_luong())
+
+
+# ===== Trưởng phòng =====
+class TruongPhong(NhanVien):
+    def __init__(self):
+        super().__init__()
+        self.ngayBatDau = ""
+        self.phuCapQL = 0
+
+    def nhap(self):
+        super().nhap()
+        self.ngayBatDau = input("Ngay bat dau: ")
+        self.phuCapQL = float(input("Phu cap quan ly: "))
+
+    def xuat(self):
+        super().xuat()
+        print("Ngay bat dau:", self.ngayBatDau)
+        print("Phu cap QL:", self.phuCapQL)
+        print("Luong:", self.tinh_luong() + self.phuCapQL)
+
+
+# ===== Main =====
+if __name__ == "__main__":
+    print("\n=== Cong Tac Vien ===")
+    a = CongTacVien()
+    a.nhap()
+    a.xuat()
+
+    print("\n=== Nhan Vien Chinh Thuc ===")
+    b = NhanVienChinhThuc()
+    b.nhap()
+    b.xuat()
+
+    print("\n=== Truong Phong ===")
+    c = TruongPhong()
+    c.nhap()
+    c.xuat()
