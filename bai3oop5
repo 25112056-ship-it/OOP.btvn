@@ -1,0 +1,164 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+// ===== Lớp cha =====
+class CanBo {
+protected:
+    string hoTen, gioiTinh, diaChi;
+    int tuoi;
+
+public:
+    virtual void nhap() {
+        cin.ignore();
+        cout << "Ho ten: ";
+        getline(cin, hoTen);
+        cout << "Tuoi: ";
+        cin >> tuoi;
+        cin.ignore();
+        cout << "Gioi tinh: ";
+        getline(cin, gioiTinh);
+        cout << "Dia chi: ";
+        getline(cin, diaChi);
+    }
+
+    virtual void xuat() {
+        cout << "Ho ten: " << hoTen << endl;
+        cout << "Tuoi: " << tuoi << endl;
+        cout << "Gioi tinh: " << gioiTinh << endl;
+        cout << "Dia chi: " << diaChi << endl;
+    }
+
+    string getHoTen() {
+        return hoTen;
+    }
+
+    virtual ~CanBo() {}
+};
+
+// ===== Công nhân =====
+class CongNhan : public CanBo {
+private:
+    int bac; // 1-10
+
+public:
+    void nhap() {
+        CanBo::nhap();
+        cout << "Bac (1-10): ";
+        cin >> bac;
+    }
+
+    void xuat() {
+        CanBo::xuat();
+        cout << "Bac: " << bac << endl;
+    }
+};
+
+// ===== Kỹ sư =====
+class KySu : public CanBo {
+private:
+    string nganh;
+
+public:
+    void nhap() {
+        CanBo::nhap();
+        cout << "Nganh dao tao: ";
+        getline(cin, nganh);
+    }
+
+    void xuat() {
+        CanBo::xuat();
+        cout << "Nganh: " << nganh << endl;
+    }
+};
+
+// ===== Nhân viên =====
+class NhanVien : public CanBo {
+private:
+    string congViec;
+
+public:
+    void nhap() {
+        CanBo::nhap();
+        cout << "Cong viec: ";
+        getline(cin, congViec);
+    }
+
+    void xuat() {
+        CanBo::xuat();
+        cout << "Cong viec: " << congViec << endl;
+    }
+};
+
+// ===== Quản lý cán bộ =====
+class QLCB {
+private:
+    vector<CanBo*> ds;
+
+public:
+    void them() {
+        int chon;
+        cout << "1. Cong nhan\n2. Ky su\n3. Nhan vien\nChon: ";
+        cin >> chon;
+
+        CanBo* cb;
+
+        if (chon == 1) cb = new CongNhan();
+        else if (chon == 2) cb = new KySu();
+        else cb = new NhanVien();
+
+        cb->nhap();
+        ds.push_back(cb);
+    }
+
+    void hienThi() {
+        for (int i = 0; i < ds.size(); i++) {
+            cout << "\n--- Can bo " << i + 1 << " ---\n";
+            ds[i]->xuat();
+        }
+    }
+
+    void timKiem() {
+        cin.ignore();
+        string ten;
+        cout << "Nhap ten can tim: ";
+        getline(cin, ten);
+
+        for (auto cb : ds) {
+            if (cb->getHoTen() == ten) {
+                cb->xuat();
+            }
+        }
+    }
+};
+
+// ===== Main =====
+int main() {
+    QLCB ql;
+    int chon;
+
+    do {
+        cout << "\n===== MENU =====\n";
+        cout << "1. Them can bo\n";
+        cout << "2. Tim kiem\n";
+        cout << "3. Hien thi danh sach\n";
+        cout << "0. Thoat\n";
+        cout << "Chon: ";
+        cin >> chon;
+
+        switch (chon) {
+        case 1:
+            ql.them();
+            break;
+        case 2:
+            ql.timKiem();
+            break;
+        case 3:
+            ql.hienThi();
+            break;
+        }
+    } while (chon != 0);
+
+    return 0;
+}
