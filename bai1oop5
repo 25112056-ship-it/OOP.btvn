@@ -1,0 +1,129 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class HangHoa
+{
+protected:
+    string ma_hang, ten_hang, nha_sx;
+    double gia;
+
+public:
+    void nhap()
+    {
+        cout << "Ma hang: ";
+        cin >> ma_hang;
+        cin.ignore();
+
+        cout << "Ten hang: ";
+        getline(cin, ten_hang);
+
+        cout << "Nha san xuat: ";
+        getline(cin, nha_sx);
+
+        cout << "Gia: ";
+        cin >> gia;
+    }
+
+    void xuat()
+    {
+        cout << "Ma hang: " << ma_hang << endl;
+        cout << "Ten hang: " << ten_hang << endl;
+        cout << "Nha san xuat: " << nha_sx << endl;
+        cout << "Gia: " << gia << endl;
+    }
+};
+
+class HangDienMay : public HangHoa
+{
+private:
+    int tg_baohanh;
+    double dien_ap, cong_suat;
+
+public:
+    void nhap()
+    {
+        HangHoa::nhap();
+        cout << "Thoi gian bao hanh: ";
+        cin >> tg_baohanh;
+        cout << "Dien ap: ";
+        cin >> dien_ap;
+        cout << "Cong suat: ";
+        cin >> cong_suat;
+    }
+
+    void xuat()
+    {
+        HangHoa::xuat();
+        cout << "Bao hanh: " << tg_baohanh << endl;
+        cout << "Dien ap: " << dien_ap << endl;
+        cout << "Cong suat: " << cong_suat << endl;
+    }
+};
+
+class HangSanhSu : public HangHoa
+{
+private:
+    string loai_nguyen_lieu;
+
+public:
+    void nhap()
+    {
+        HangHoa::nhap();
+        cin.ignore();
+        cout << "Loai nguyen lieu: ";
+        getline(cin, loai_nguyen_lieu);
+    }
+
+    void xuat()
+    {
+        HangHoa::xuat();
+        cout << "Nguyen lieu: " << loai_nguyen_lieu << endl;
+    }
+};
+
+// ===== Hàng thực phẩm =====
+class HangThucPham : public HangHoa
+{
+private:
+    string ngay_sx, ngay_hh;
+
+public:
+    void nhap()
+    {
+        HangHoa::nhap();
+        cin.ignore();
+        cout << "Ngay san xuat: ";
+        getline(cin, ngay_sx);
+        cout << "Ngay het han: ";
+        getline(cin, ngay_hh);
+    }
+
+    void xuat()
+    {
+        HangHoa::xuat();
+        cout << "Ngay SX: " << ngay_sx << endl;
+        cout << "Ngay HH: " << ngay_hh << endl;
+    }
+};
+
+// ===== Main =====
+int main()
+{
+    cout << "\n=== Hang Dien May ===\n";
+    HangDienMay a;
+    a.nhap();
+    a.xuat();
+
+    cout << "\n=== Hang Sanh Su ===\n";
+    HangSanhSu b;
+    b.nhap();
+    b.xuat();
+
+    cout << "\n=== Hang Thuc Pham ===\n";
+    HangThucPham c;
+    c.nhap();
+    c.xuat();
+
+    return 0;
+}
