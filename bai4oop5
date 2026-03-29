@@ -1,0 +1,120 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <ctime>
+using namespace std;
+
+// ===== Card =====
+class Card {
+public:
+    int rank; // 1-13
+    int suit; // 0-3
+
+    Card(int r = 1, int s = 0) {
+        rank = r;
+        suit = s;
+    }
+
+    void print() {
+        cout << rank << "-" << suit << " ";
+    }
+};
+
+// ===== Deck =====
+class Deck {
+private:
+    vector<Card> cards;
+
+public:
+    Deck() {
+        for (int s = 0; s < 4; s++) {
+            for (int r = 1; r <= 13; r++) {
+                cards.push_back(Card(r, s));
+            }
+        }
+    }
+
+    void shuffle() {
+        srand(time(0));
+        random_shuffle(cards.begin(), cards.end());
+    }
+
+    Card deal() {
+        Card c = cards.back();
+        cards.pop_back();
+        return c;
+    }
+};
+
+// ===== Hand =====
+class Hand {
+public:
+    vector<Card> cards;
+
+    void addCard(Card c) {
+        cards.push_back(c);
+    }
+
+    void show() {
+        for (auto c : cards) {
+            c.print();
+        }
+        cout << endl;
+    }
+};
+
+// ===== Player =====
+class Player {
+public:
+    string name;
+    Hand hand;
+
+    Player(string n) {
+        name = n;
+    }
+
+    void receive(Card c) {
+        hand.addCard(c);
+    }
+
+    void show() {
+        cout << name << ": ";
+        hand.show();
+    }
+};
+
+// ===== Game =====
+class PokerGame {
+private:
+    Deck deck;
+    vector<Player> players;
+
+public:
+    PokerGame() {
+        players.push_back(Player("Player1"));
+        players.push_back(Player("Player2"));
+    }
+
+    void play() {
+        deck.shuffle();
+
+        // chia mỗi người 3 lá
+        for (int i = 0; i < 3; i++) {
+            for (auto &p : players) {
+                p.receive(deck.deal());
+            }
+        }
+
+        // hiển thị
+        for (auto p : players) {
+            p.show();
+        }
+    }
+};
+
+// ===== Main =====
+int main() {
+    PokerGame game;
+    game.play();
+    return 0;
+}
